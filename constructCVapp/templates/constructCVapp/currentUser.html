@@ -1,5 +1,6 @@
 {% extends 'constructCVapp/base.html' %}
 {% block content %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +13,15 @@
         {% csrf_token %}
         <button type="submit" class="btn btn-outline-dark">Log out</button>
     </form>
+
+    <a role="button" class="btn btn-outline-dark" href="{% url 'createCV' %}">Create CV</a><br>
+    <div class="text-center">
+        {% for file in files %}
+            {{ file.firstName }}
+            {{ file.secondName }}
+            <a href="{{ file.fileCV }}" target="_blank">File</a><br>
+        {% endfor %}
+    </div>
 </body>
 </html>
 {% endblock %}

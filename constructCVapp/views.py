@@ -1,9 +1,19 @@
-from django.shortcuts import render, redirect
+from pathlib import Path
+from django.core.files import File as DjangoFile
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 
+from borb.pdf import Document
+from borb.pdf import Page
+from borb.pdf import SingleColumnLayout
+from borb.pdf import Paragraph
+from borb.pdf import PDF
+
+from .models import infoCVModel
+from .forms import infoCVForm
 
 def mainPage(request):
     return render(request, 'constructCVapp/mainPage.html')
@@ -62,8 +72,36 @@ def logOutUser(request):
         return redirect('mainPage')
 
 
+
+def createCV(request):
+    if request.method == 'GET':
+        return render(request, 'constructCVapp/createCV.html', {'form': infoCVForm()})
+    else:
+        form = infoCVForm(request.POST, request.FILES)
+        if form.is_valid():
+            firstName = form.cleaned_data.get('firstName')
+            secondName = form.cleaned_data.get('secondName')
+
+        pdf = Document()
+        page = Page()
+        pdf.add_page(page)
+        layout = SingleColumnLayout(page)
+        layout.add(Paragraph(firstName + ' ' + secondName))
+
+        with open(Path(f'constructCVapp/static/constructCVapp/{firstName}{secondName}CV.pdf'), 'wb') as new_pdf:
+            PDF.dumps(new_pdf, pdf)
+        CV = DjangoFile(open(Path(f'constructCVapp/static/constructCVapp/{firstName}{secondName}CV.pdf'), mode='rb'))
+        data = infoCVModel(
+            firstName=firstName,
+            secondName=secondName,
+            fileCV=CV,
+        )
+        data.user = request.user
+        data.save()
+
+        return redirect('currentUser')
+
+
 def currentUser(request):
-    return render(request, 'constructCVapp/currentUser.html')
-
-
-
+    files = infoCVModel.objects.filter(user=request.user)
+    return render(request, 'constructCVapp/currentUser.html', {'files': files})
