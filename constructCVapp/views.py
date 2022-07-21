@@ -8,9 +8,14 @@ from django.db import IntegrityError
 
 from borb.pdf import Document
 from borb.pdf import Page
-from borb.pdf import SingleColumnLayout
 from borb.pdf import Paragraph
 from borb.pdf import PDF
+from borb.pdf.canvas.geometry.rectangle import Rectangle
+from borb.pdf.canvas.layout.layout_element import Alignment
+from borb.pdf.canvas.layout.annotation.square_annotation import SquareAnnotation
+from borb.pdf.canvas.color.color import HexColor
+
+from decimal import Decimal
 
 from .models import infoCVModel
 from .forms import infoCVForm
@@ -85,8 +90,14 @@ def createCV(request):
         pdf = Document()
         page = Page()
         pdf.add_page(page)
-        layout = SingleColumnLayout(page)
-        layout.add(Paragraph(firstName + ' ' + secondName))
+        r: Rectangle = Rectangle(
+            Decimal(400),
+            Decimal(848 - 84 - 100),
+            Decimal(125),
+            Decimal(150),
+        )
+        page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
+        Paragraph(firstName + ' ' + secondName, horizontal_alignment=Alignment.CENTERED).layout(page, r)
 
         with open(Path(f'constructCVapp/static/constructCVapp/{firstName}{secondName}CV.pdf'), 'wb') as new_pdf:
             PDF.dumps(new_pdf, pdf)
