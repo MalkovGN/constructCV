@@ -1,26 +1,28 @@
 {% extends 'constructCVapp/base.html' %}
 {% block content %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/loginUser.css' %}">
 </head>
 <body>
-<div class="row justify-content-center mt-5">
-    <div class="col-md-5">
-        {% if error %}
-            {{ error }}
-        {% endif %}
+<div class="container">
+    {% if error %}
+        {{ error }}
+    {% endif %}
+    <h1>Sign In</h1>
     <form method="POST">
         {% csrf_token %}
-        <div class="form-group">
+        <div class="form-control">
             <label for="username">Username</label>
-            <input type="text" name="username" class="form-control" id="username">
+            <input type="text" name="username" class="form-control" id="username" placeholder="Enter login">
         </div>
-        <div class="form-group">
+        <div class="form-control">
             <label for="password">Password</label>
-            <input type="password" name="password" class="form-control" id="password">
+            <input type="password" name="password" class="form-control" id="password" placeholder="Enter password">
         </div>
         <br>
         <button type="submit" class="btn btn-outline-dark">Log in</button>
@@ -31,5 +33,7 @@
         or<br>
         <i><a role="button" class="btn btn-outline-dark" href="{% url 'mainPage' %}">Back to main page</a></i>
     </div>
+</div>
+</body>
 </html>
 {% endblock %}
