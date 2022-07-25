@@ -92,6 +92,7 @@ def createCV(request):
             socialContacts = form.cleaned_data.get('socialContacts')
             wantedJobTitle = form.cleaned_data.get('wantedJobTitle')
             educationSubscribe = form.cleaned_data.get('educationSubscribe')
+            workExperience = form.cleaned_data.get('workExperience')
         else:
             return render(
                 request,
@@ -109,6 +110,8 @@ def createCV(request):
             socialContacts = ''
         if educationSubscribe is None:
             educationSubscribe = ''
+        if workExperience is None:
+            workExperience = ''
 
         pdf = Document()
         page = Page()
@@ -163,6 +166,24 @@ def createCV(request):
             Decimal(75),
         )
         Paragraph(educationSubscribe, font_size=Decimal(10), text_alignment=Alignment.JUSTIFIED).layout(page, r)
+        page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
+
+        r: Rectangle = Rectangle(
+            Decimal(50),
+            Decimal(630),
+            Decimal(400),
+            Decimal(25),
+        )
+        Paragraph('Work experience', font_size=Decimal(14), horizontal_alignment=Alignment.CENTERED).layout(page, r)
+        page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
+
+        r: Rectangle = Rectangle(
+            Decimal(50),
+            Decimal(480),
+            Decimal(400),
+            Decimal(150),
+        )
+        Paragraph(workExperience, font_size=Decimal(10), text_alignment=Alignment.JUSTIFIED).layout(page, r)
         page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
 
         with open(Path(f'constructCVapp/static/constructCVapp/{firstName}{secondName}CV.pdf'), 'wb') as new_pdf:

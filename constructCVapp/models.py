@@ -13,6 +13,7 @@ class infoCVModel(models.Model):
     socialContacts = models.CharField(max_length=64, blank=True, null=True)
     wantedJobTitle = models.CharField(max_length=64, null=True)
     educationSubscribe = models.TextField(max_length=300, null=True, blank=True)
+    workExperience = models.TextField(max_length=500, null=True, blank=True)
     fileCV = models.FileField(upload_to='', blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
