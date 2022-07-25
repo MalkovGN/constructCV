@@ -150,41 +150,68 @@ def createCV(request):
         Paragraph(wantedJobTitle, font_size=Decimal(10), horizontal_alignment=Alignment.LEFT).layout(page, r)
         page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
 
-        r: Rectangle = Rectangle(
-            Decimal(50),
-            Decimal(740),
-            Decimal(400),
-            Decimal(25),
-        )
-        Paragraph('Education', font_size=Decimal(14), horizontal_alignment=Alignment.CENTERED).layout(page, r)
-        page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
+        if educationSubscribe != '':
+            r: Rectangle = Rectangle(
+                Decimal(50),
+                Decimal(740),
+                Decimal(400),
+                Decimal(25),
+            )
+            Paragraph('Education', font_size=Decimal(14), horizontal_alignment=Alignment.CENTERED).layout(page, r)
+            page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
 
-        r: Rectangle = Rectangle(
-            Decimal(50),
-            Decimal(660),
-            Decimal(400),
-            Decimal(75),
-        )
-        Paragraph(educationSubscribe, font_size=Decimal(10), text_alignment=Alignment.JUSTIFIED).layout(page, r)
-        page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
+            r: Rectangle = Rectangle(
+                Decimal(50),
+                Decimal(660),
+                Decimal(400),
+                Decimal(75),
+            )
+            Paragraph(educationSubscribe, font_size=Decimal(10), text_alignment=Alignment.JUSTIFIED).layout(page, r)
+            page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
+            if workExperience != '':
+                r: Rectangle = Rectangle(
+                    Decimal(50),
+                    Decimal(630),
+                    Decimal(400),
+                    Decimal(25),
+                )
+                Paragraph(
+                    'Work experience',
+                    font_size=Decimal(14),
+                    horizontal_alignment=Alignment.CENTERED
+                ).layout(page, r)
+                page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
 
-        r: Rectangle = Rectangle(
-            Decimal(50),
-            Decimal(630),
-            Decimal(400),
-            Decimal(25),
-        )
-        Paragraph('Work experience', font_size=Decimal(14), horizontal_alignment=Alignment.CENTERED).layout(page, r)
-        page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
+                r: Rectangle = Rectangle(
+                    Decimal(50),
+                    Decimal(480),
+                    Decimal(400),
+                    Decimal(150),
+                )
+                Paragraph(workExperience, font_size=Decimal(10), text_alignment=Alignment.JUSTIFIED).layout(page, r)
+                page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
+        else:
+            r: Rectangle = Rectangle(
+                Decimal(50),
+                Decimal(740),
+                Decimal(400),
+                Decimal(25),
+            )
+            Paragraph(
+                'Work experience',
+                font_size=Decimal(14),
+                horizontal_alignment=Alignment.CENTERED
+            ).layout(page, r)
+            page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
 
-        r: Rectangle = Rectangle(
-            Decimal(50),
-            Decimal(480),
-            Decimal(400),
-            Decimal(150),
-        )
-        Paragraph(workExperience, font_size=Decimal(10), text_alignment=Alignment.JUSTIFIED).layout(page, r)
-        page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
+            r: Rectangle = Rectangle(
+                Decimal(50),
+                Decimal(590),
+                Decimal(400),
+                Decimal(150),
+            )
+            Paragraph(workExperience, font_size=Decimal(10), text_alignment=Alignment.JUSTIFIED).layout(page, r)
+            page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
 
         with open(Path(f'constructCVapp/static/constructCVapp/{firstName}{secondName}CV.pdf'), 'wb') as new_pdf:
             PDF.dumps(new_pdf, pdf)
