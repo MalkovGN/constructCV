@@ -1,21 +1,86 @@
 {% extends 'constructCVapp/base.html' %}
 {% block content %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create your CV</title>
+     <link rel="stylesheet" href="{% static 'css/create.css' %}">
 </head>
+<style>
+    #userForm {
+        width: 200px;
+        margin-left: 150px;
+    }
+    #bigFields {
+        width: 300px;
+        height: 150px;
+        margin-left: 100px;
+    }
+    #describeField {
+        margin-left: 150px;
+    }
+</style>
 <body>
+    <h3>Construct your new CV</h3>
     {% if error %}
         {{ error }}
     {% endif %}
-     <form method="post">
-         {% csrf_token %}
-         {{ form.as_p }}
-         <button type="submit" class="btn btn-outline-dark">Create</button>
-     </form>
-    <a role="button" class="btn btn-outline-dark" href="{% url 'mainPage' %}">Back</a>
+
+         <form method="post">
+             {% csrf_token %}
+              <section>
+                 <div class="form-group">
+                     <label for="firstName" id="userForm">First Name</label>
+                     <input type="text" name="firstName" class="form-control" id="userForm" placeholder="Ivan" required>
+                 </div>
+                 <div class="form-group">
+                     <label for="secondName" id="userForm">Second Name</label>
+                     <input type="text" class="form-control" name="secondName" id="userForm" placeholder="Ivanov" required>
+                 </div>
+                 <div class="form-group">
+                     <label for="emailAdress" id="userForm">Email</label>
+                     <input type="email" class="form-control" name="emailAdress" id="userForm" placeholder="email@gmail.com">
+                 </div>
+                 <div class="form-group">
+                     <label for="wantedJobTitle" id="userForm">Wanted job</label>
+                     <input type="text" class="form-control" name="wantedJobTitle" id="userForm" placeholder="Engineer" required>
+                 </div>
+                 <details>
+                     <summary id="userForm">Tap to input more info</summary>
+                     <div class="form-group">
+                         <label for="phoneNumber" id="userForm">Phone number</label>
+                         <input type="text" class="form-control" name="phoneNumber" id="userForm" placeholder="89122131212">
+                     </div>
+                     <div class="form-group">
+                         <label for="gitHubLink" id="userForm">GitHub</label>
+                         <input type="url" class="form-control" name="gitHubLink" id="userForm" placeholder="https://github.com/user">
+                     </div>
+                     <div class="form-group">
+                         <label for="socialContacts" id="userForm">Social contacts</label>
+                         <input type="text" class="form-control" name="socialContacts" id="userForm" placeholder="tg: @username">
+                     </div>
+                 </details>
+              </section>
+             <aside>
+                 <div class="form-group">
+                     <label for="educationDescribe" id="describeField">Write about your education</label>
+                      <textarea type="text" class="form-control" name="educationDescribe" id="bigFields"></textarea>
+                 </div>
+                 <div class="form-group">
+                     <label for="workExperience" id="describeField">Write about your work experience</label>
+                     <textarea type="text" class="form-control" name="workExperience" id="bigFields"></textarea>
+                 </div>
+             </aside>
+    {#         {{ form.as_p }}#}
+             <div class="text-center">
+                <button type="submit" class="btn btn-outline-dark">Create</button>
+             </div>
+        </form>
+    <div class="text-center">
+        <a role="button" class="btn btn-outline-dark" href="{% url 'currentUser' %}">Back</a>
+    </div>
 </body>
 </html>
 {% endblock %}

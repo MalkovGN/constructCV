@@ -119,9 +119,9 @@ def createCV(request):
 
         r: Rectangle = Rectangle(
             Decimal(450),
-            Decimal(675),
+            Decimal(660),
             Decimal(125),
-            Decimal(150),
+            Decimal(160),
         )
         page.add_annotation(SquareAnnotation(r, stroke_color=HexColor('#ffffff')))
         Paragraph(
