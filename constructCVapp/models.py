@@ -23,4 +23,3 @@ class infoCVModel(models.Model):
 
     def __str__(self):
         return f'{self.firstName} {self.secondName}'
-
